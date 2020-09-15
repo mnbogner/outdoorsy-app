@@ -5,6 +5,11 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 29
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         applicationId "com.mnb.outdoorsy"
         minSdkVersion 26
@@ -36,4 +41,9 @@ dependencies {
     // recyclerview dependency
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
+    // retrofit2 dependency
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    // gsom/json dependency
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

@@ -2,6 +2,8 @@ package com.mnb.outdoorsy
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
+import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +26,20 @@ class MainActivity : AppCompatActivity(), ListActions {
         window.statusBarColor = resources.getColor(R.color.darkerGreen, theme)
         supportActionBar?.hide()
 
+        // set up search entry
+        val search = findViewById<EditText>(R.id.search_entry)
+        // TODO: i don't think this is the best way to determine when to ingest text
+        search.setOnEditorActionListener { v, actionId, event ->
+            if(event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER){
+                val query = search.text.toString()
+                doSearch(query)
+                search.text.clear()
+                true
+            } else {
+                false
+            }
+        }
+
         // set up recycler view, hold on to adapter to update with new data
         val recycler = findViewById<RecyclerView>(R.id.result_list)
         val manager = LinearLayoutManager(this)
@@ -34,9 +50,17 @@ class MainActivity : AppCompatActivity(), ListActions {
         // set up view model
         model = ViewModelProvider(this, ResultsViewModelFactory(application)).get(ResultsViewModel::class.java)
         model?.resultsData?.observe(this, Observer { newList -> updateData(newList) })
-        // TEMP: delete when actual data is available
-        model?.testData(5)
 
+    }
+
+    // handle entered text and pass to search method
+    private fun doSearch(string: String?) {
+        if (string == null || string.isEmpty()) {
+            // no-op
+        } else {
+            // TODO: validate, trim, clear bad characters, etc
+            model?.search(string)
+        }
     }
 
     // update recycler view adapter with new data

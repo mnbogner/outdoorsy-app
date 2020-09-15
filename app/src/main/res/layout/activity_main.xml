@@ -31,6 +31,7 @@
             android:paddingVertical="12dp"
             android:paddingHorizontal="24dp"
             android:hint="@string/search_hint"
+            android:singleLine="true"
             android:background="@drawable/search_shape"/>
 
     </LinearLayout>
