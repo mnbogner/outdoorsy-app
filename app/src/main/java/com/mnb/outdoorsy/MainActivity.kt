@@ -1,8 +1,11 @@
 package com.mnb.outdoorsy
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -30,10 +33,18 @@ class MainActivity : AppCompatActivity(), ListActions {
         val search = findViewById<EditText>(R.id.search_entry)
         // TODO: i don't think this is the best way to determine when to ingest text
         search.setOnEditorActionListener { v, actionId, event ->
-            if(event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER){
+            if (actionId == null || event == null) {
+                false
+            } else if(actionId == EditorInfo.IME_ACTION_SEARCH ||
+                (event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER)){
                 val query = search.text.toString()
                 doSearch(query)
                 search.text.clear()
+                val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val token = currentFocus?.windowToken
+                if (manager != null && token != null) {
+                    manager.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS)
+                }
                 true
             } else {
                 false

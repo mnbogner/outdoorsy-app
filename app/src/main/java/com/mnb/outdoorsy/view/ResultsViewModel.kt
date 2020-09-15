@@ -31,9 +31,17 @@ class ResultsViewModel: ViewModel() {
 
                 val responseElement = JsonParser().parse(response?.body()?.string());
                 val responseObject = responseElement.asJsonObject
+                val dataArray = responseObject.getAsJsonArray("data")
+                val includedArray = responseObject.getAsJsonArray("included")
+
+                // basic check for null results, return empty list
+                if (dataArray == null || includedArray == null) {
+                    val itemList = ArrayList<ResultItem>()
+                    resultsData.value = itemList
+                    return
+                }
 
                 // parse relevant items from data array
-                val dataArray = responseObject.getAsJsonArray("data")
                 for (dataItem in dataArray) {
                     val dataAttributes = dataItem.asJsonObject.get("attributes")
                     val dataName = dataAttributes.asJsonObject.get("name")
@@ -46,7 +54,6 @@ class ResultsViewModel: ViewModel() {
                 }
 
                 // parse relevant items from included array
-                val includedArray = responseObject.getAsJsonArray("included")
                 for (includedItem in includedArray) {
                     val includedId = includedItem.asJsonObject.get("id")
                     val includedType = includedItem.asJsonObject.get("type")
@@ -60,10 +67,7 @@ class ResultsViewModel: ViewModel() {
                     }
                 }
 
-                for (i in dataMap.values) {
-                    System.out.println(i.name + " - " + i.id + " - " + i.url)
-                }
-
+                // convert results items to list items and update livedata
                 val dataList = ArrayList<ResultData>(dataMap.values)
                 val itemList = convertList(dataList)
                 resultsData.value = itemList

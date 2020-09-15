@@ -38,6 +38,6 @@ class ResultsAdapter(val context: Context, val listActions: ListActions): Recycl
         resultHolder.setData(resultItem)
         resultHolder.resultText.text = resultItem.name
         // TODO: this seems slow, should investigate ways to optimize and add a placeholder
-        Picasso.get().load(resultItem.imageUrl).into(resultHolder.resultImage);
+        Picasso.get().load(resultItem.imageUrl).placeholder(R.drawable.placeholder).into(resultHolder.resultImage);
     }
 }
