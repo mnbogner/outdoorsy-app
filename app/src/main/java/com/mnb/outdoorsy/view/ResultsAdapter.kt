@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mnb.outdoorsy.ListActions
 import com.mnb.outdoorsy.R
 import com.mnb.outdoorsy.models.ResultItem
+import com.squareup.picasso.Picasso
 
 class ResultsAdapter(val context: Context, val listActions: ListActions): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -16,7 +17,8 @@ class ResultsAdapter(val context: Context, val listActions: ListActions): Recycl
     // time the data set changes
 
     fun updateData(newList: ArrayList<ResultItem>) {
-        resultsList = newList
+        resultsList.clear()
+        resultsList.addAll(newList)
         notifyDataSetChanged()
     }
 
@@ -30,12 +32,12 @@ class ResultsAdapter(val context: Context, val listActions: ListActions): Recycl
         return resultsList.size
     }
 
-    // TODO: add image handling
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val resultHolder = holder as ResultsViewHolder
         val resultItem = resultsList.get(position)
         resultHolder.setData(resultItem)
         resultHolder.resultText.text = resultItem.name
+        // TODO: this seems slow, should investigate ways to optimize and add a placeholder
+        Picasso.get().load(resultItem.imageUrl).into(resultHolder.resultImage);
     }
 }

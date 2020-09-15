@@ -38,12 +38,15 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    // recyclerview dependency
+    // recyclerview dependency (for scrolling list of results)
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
-    // retrofit2 dependency
+    // retrofit2 dependency (for network access)
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
-    // gsom/json dependency
+    // gson/json dependency (for parsing search results)
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // picasso dependency (for image handling)
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
