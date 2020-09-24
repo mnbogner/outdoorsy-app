@@ -14,4 +14,8 @@ Known issues:
  - Should build up a hierarchy of objects so a GsonConverter could handle the results
  - Paging for search results still needs to be implemented
  - Improved error checking
- - Unit tests
+ - Unit tests     
+
+All Rights Reserved
+
+Copyright (c) 2020 Matthew Bogner
